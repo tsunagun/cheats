@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+# = Amazon Item Search
+#
+# Amazon Web ServiceのAPIを用いて，商品検索を行う．
+
 # ライブラリ読み込み
 require 'cgi'
 require "amazon/ecs"
