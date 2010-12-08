@@ -1,0 +1,101 @@
+# -*- coding: utf-8 -*-
+
+require 'pp'
+require 'open-uri'
+require 'cgi'
+require 'rubygems'
+require 'nokogiri'
+require 'date'
+require 'openssl'
+require 'base64'
+
+class Amazon
+  # Amazon Web Service(以下AWS)のアクセスキーとシークレットキーをamazon_key.txtから読み込む
+  load 'amazon_key.txt'
+
+  @@host = 'webservices.amazon.co.jp'
+  @@path = '/onca/xml'
+
+  # AWSのレスポンスの名前空間を指定する
+  @@namespace = {"xmlns" => "http://webservices.amazon.com/AWSECommerceService/2009-01-06"}
+
+  # AWSに送信する書籍検索用クエリを生成する
+  # 書籍以外も検索したい、出力内容を簡略化あるいは詳細化したいという場合は、配列par内の各パラメータを変更する
+  def self.make_request_url(query_word, current_page)
+    gmt = DateTime.now.new_offset.strftime('%Y-%m-%dT%XZ')
+    par =[
+      'Service=AWSECommerceService',
+      'Version=2009-01-06',
+      'AWSAccessKeyId=' + AMAZON_ACCESS_KEY,
+      'ContentType=' + CGI.escape('text/xml'),
+      'Operation=ItemSearch',
+      'SearchIndex=Books',
+      'ResponseGroup=' + CGI.escape('Medium,Reviews,EditorialReview'),
+      'Keywords=' + CGI.escape(query_word),
+      'ItemPage=' + current_page.to_s,
+      'Timestamp=' + CGI.escape(gmt)
+    ].sort.join('&')
+    msg = ['GET', @@host, @@path, par].join("\n")
+    dig = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, AMAZON_SECRET_KEY, msg)
+    sig = CGI.escape(Base64.encode64(dig).chomp)
+    "http://" + @@host + @@path + "?" + par + "&Signature=" + sig
+  end
+
+  # 入力文字列でAmazon書籍検索を行うメソッド。
+  # 検索結果は1ページにつき10件までなので、10件以上ある場合(total_pagesが2以上の場合)はcurrent_pageを増やして2ページ目以降を取得している。
+  # 検索結果のXMLを1ページずつNokogiriでパースして出力する。
+  # 出力形式はNokogiriオブジェクトを要素とする配列。
+  # 出力形式：[1ページ目のNokogiriオブジェクト, 2ページ目のNokogiriオブジェクト, ...]
+  def self.get_bib_nokogiris(input)
+    current_page = 1
+    total_pages_path = "/xmlns:ItemSearchResponse/xmlns:Items/xmlns:TotalPages"
+    parsed_xml_objects = Array.new
+    loop do
+      request_url = self.make_request_url(input, current_page)
+      parsed_xml_object = Nokogiri::XML(open(request_url))
+      parsed_xml_objects << parsed_xml_object
+      break if parsed_xml_object.xpath(total_pages_path, @@namespace).text.to_i == current_page
+      current_page += 1
+      # AWSへの過剰なアクセスを防ぐため、sleepで処理を1秒停止させている。
+      sleep 1
+    end
+    return parsed_xml_objects
+  end
+
+  # 入力文字列でAmazonの書誌情報を検索し、ヒットした書籍の書誌情報を返すメソッド
+  # 入力：文字列(String)
+  # 出力：書誌情報の集合
+  # 出力形式：[
+  #           [
+  #             [title],
+  #             [author1, ...],
+  #             [publisher1, ...],
+  #             [date],
+  #             [isbn]
+  #           ],...
+  #         ]
+  def self.get_bibliographies(input)
+    nokogiris = self.get_bib_nokogiris(input)
+    item_path  = "/xmlns:ItemSearchResponse/xmlns:Items/xmlns:Item"
+    url_path        = "xmlns:DetailPageURL"
+    title_path      = "xmlns:ItemAttributes/xmlns:Title"
+    author_path     = "xmlns:ItemAttributes/xmlns:Author"
+    publisher_path  = "xmlns:ItemAttributes/xmlns:Publisher"
+    date_path       = "xmlns:ItemAttributes/xmlns:PublicationDate"
+    isbn_path       = "xmlns:ItemAttributes/xmlns:ISBN"
+    nokogiris.map do|nokogiri|
+      nokogiri.xpath(item_path, @@namespace).map do |item|
+        {
+          "url"       => item.xpath(url_path, @@namespace).map do |url| CGI.unescape(url.text) end,
+          "title"     => item.xpath(title_path, @@namespace).map do |title| title.text end,
+          "author"    => item.xpath(author_path, @@namespace).map do |author| author.text end,
+          "publisher" => item.xpath(publisher_path, @@namespace).map do |publisher| publisher.text end,
+          "date"      => item.xpath(date_path, @@namespace).map do |date| date.text end,
+          "isbn"      => item.xpath(isbn_path, @@namespace).map do |isbn| isbn.text end
+        }
+      end
+    end.flatten
+  end
+  
+end
+pp Amazon.get_bibliographies("御巣鷹山")
