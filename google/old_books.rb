@@ -7,8 +7,9 @@ class Google
   # ライブラリ読み込み
   require 'pp'
   require 'open-uri'
-  require 'nokogiri'
   require 'cgi'
+  require 'rubygems'
+  require 'nokogiri'
 
   # APIへのリクエストURLを生成する
   def self.make_request_url(query)
@@ -26,20 +27,13 @@ class Google
     creator_path = "dc:creator"
     isbn_path = "dc:identifier[contains(text(), 'ISBN:')]"
 
-    books = Array.new
     request_url = self.make_request_url(input)
+    books = Array.new
     parser = Nokogiri::XML.parse(open(request_url).read)
     parser.xpath(entry_path, parser.namespaces).each do |entry|
-      book = Hash.new do |hash, key| hash[key] = Array.new end
-      entry.xpath(title_path, parser.namespaces).each do |title|
-        book[:title] << title.text
-      end
-      entry.xpath(creator_path, parser.namespaces).each do |creator|
-        book[:creator] << creator.text
-      end
-      entry.xpath(isbn_path, parser.namespaces).each do |isbn|
-        book[:isbn] << isbn.text.gsub(/ISBN:/, "")
-      end
+      book = Hash.new
+      book[:title] = entry.xpath(title_path, parser.namespaces).text
+      book[:isbn] = entry.xpath(isbn_path, parser.namespaces).text.gsub(/^ISBN:/, "").gsub(/ISBN:/, ", ")
       books << book
     end
     books
@@ -47,6 +41,6 @@ class Google
 
 end
 
-# 書籍の検索結果を求める
+# queryの漢字変換候補を求める
 query = ARGV[0] || "図書館情報学"
 pp Google.get(query)
