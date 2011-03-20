@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Google Books Data APIを使って書籍検索を行うスクリプト
+# 参照URL
+## http://code.google.com/intl/ja/apis/books/docs/gdata/developers_guide_protocol.html
+## http://note.openvista.jp/2008/trying-google-book-search-api/
 
 class Google
 
