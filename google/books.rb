@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+$KCODE = 'UTF-8'
 
 # Google Books Data APIを使って書籍検索を行うスクリプト
 # 参照URL
@@ -8,6 +9,7 @@
 class Google
 
   # ライブラリ読み込み
+  require 'rubygems'
   require 'pp'
   require 'open-uri'
   require 'nokogiri'
