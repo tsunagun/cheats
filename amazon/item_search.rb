@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+$KCODE = 'UTF-8'
 
 # = Amazon Item Search
 #
 # Amazon Web ServiceのAPIを用いて，商品検索を行う．
 
 # ライブラリ読み込み
+require 'rubygems'
 require 'cgi'
 require "amazon/ecs"
 
@@ -50,9 +52,7 @@ end
 
 # 結果表示
 items.flatten.each do |item|
-  title = item.get("itemattributes/title").encode("UTF-8")
+  title = item.get("itemattributes/title")
   title = CGI.unescapeHTML(title)
   puts title
 end
-
-p items.flatten.size
