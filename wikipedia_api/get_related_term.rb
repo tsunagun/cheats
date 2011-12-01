@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 # WikipediaAPIを利用して，キーワードと関連する語を取得する
 # 参照：http://wikipedia-lab.org/ja/index.php/Wikipedia_API
+# 注：Ruby1.9系の場合，gem 'soap4r-ruby1.9'をインストールしておく
 require 'soap/wsdlDriver'
 
 keyword = ARGV[0] || "図書館"
