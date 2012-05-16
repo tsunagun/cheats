@@ -1,1 +1,5 @@
-Rubyで各種API等にアクセスしてみる．
+classifiers
+  gem 'classifier' を利用したベイズ分類を試してみる．
+
+webapi
+  Rubyで各種WebAPI等にアクセスしてみる．

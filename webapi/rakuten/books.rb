@@ -23,7 +23,7 @@ class Rakuten
       "developerId=" + RAKUTEN_DEVEL_ID,
       "operation=" + "BooksBookSearch",
       "version=" + "2011-01-27",
-      "title=" + CGI.escape(query)
+      "isbn=" + CGI.escape(query)
     ].join("&")
     url = base_uri + params
   end
@@ -37,6 +37,7 @@ class Rakuten
 
     books = Array.new
     request_url = self.make_request_url(input)
+		pp open(request_url).read
     parser = Nokogiri::XML.parse(open(request_url).read)
     parser.xpath(item_path).each do |item|
       book = Hash.new do |hash, key| hash[key] = Array.new end
@@ -57,5 +58,5 @@ class Rakuten
 end
 
 # 書籍の検索結果を求める
-query = ARGV[0] || "図書館情報学"
+query = ARGV[0] || "9784051057558"
 pp Rakuten.get(query)
