@@ -13,6 +13,6 @@ response = open(base_uri + query).read
 parser = Nokogiri::XML.parse(response)
 parser.xpath("//xmlns:recordData", parser.namespaces).each_with_index do |record, index|
   record.xpath("./*/*[local-name()='title']").each do |title|
-    puts "#{index}:  #{title.text}"
+    puts "#{index + 1}:  #{title.text}"
   end
 end
