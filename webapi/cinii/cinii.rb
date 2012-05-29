@@ -109,7 +109,6 @@ module CiNii
   end
 end
 
-uri = "http://ci.nii.ac.jp/naid/120003850974"
 uri = "http://ci.nii.ac.jp/naid/110008682472"
 article = CiNii::Article.new(uri)
 pp article
