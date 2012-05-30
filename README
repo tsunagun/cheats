@@ -3,3 +3,6 @@ classifiers
 
 webapi
   Rubyで各種WebAPI等にアクセスしてみる．
+
+scraping
+  Webページ中の文字列を抽出・整形して表示してみる．
