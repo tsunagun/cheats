@@ -1,0 +1,180 @@
+This page is a compilation of links, descriptions, and status reports of the various '''alternative MediaWiki parsers'''&mdash;that is, programs and projects, other than [[MediaWiki]] itself, which are able or intended to translate MediaWiki's text markup syntax into something else. Some of these have quite narrow purposes, others are possible contenders for replacing the somewhat labyrinthine code that currently drives MediaWiki itself.
+
+Many of the things linked here are likely to be out of date and under-maintained, even abandoned. But in the interest of not duplicating the same work over and over, it seemed sensible to collect together what was "out there".
+
+== Related topics ==
+* [[One-pass parser]]
+* [[meta:MediaWiki lexer|MediaWiki lexer]] and [[meta:MediaWiki flexer|MediaWiki flexer]] (not parsers as such, just grammar definitions; probably superseded by/within other projects below)
+* [[:en:Wikipedia:Text editor support]] includes various scripts and extensions for things like syntax highlighting for things like EMACS, Vim, and all sorts; some of these may include rudimentary parsing capabilities.
+* [http://languagemachine.sourceforge.net/website.html Here] are some proof of concept rules for a subset of the Mediawiki markup: these are written in a metalanguage that treats preformatted text as source text, and everything else as comment.
+* [[Markup spec]] aims to produce a specification of MediaWiki's markup format.
+* [[Help:Extension:ParserFunctions]] is the main parser extension for MediaWiki.
+
+== A non-parser dumper ==
+One of the common uses of alternative parsers is to dump wiki content into static form, such as HTML or PDF. [[User:Tim Starling|Tim Starling]] has written a script which ''isn't'' a parser, but uses the MediaWiki internal code to dump an entire wiki to HTML, from the command-line. See [http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/DumpHTML/dumpHTML.php?view=markup dumpHTML.php] and [http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/DumpHTML/dumpHTML.inc?view=markup dumpHTML.inc] in the MediaWiki CVS repository. This has been used (years ago) to create the [[meta:static dumps|static dumps]] at http://static.wikipedia.org
+
+== Known implementations ==
+{| border=1 cellpadding=0 class="prettytable sortable"
+! Name and link !! Principal author(s) !! Language !! Input !! Output !! Comments / other info !! License
+|-----------------------
+! [http://github.com/lahdekorpi/Wiky.php Wiky.php]
+| [http://toni.lygon.net Toni Lähdekorpi] || PHP, Regular Expressions || Markup || HTML || A tiny PHP library that uses only regular expressions to convert Wiki markup to HTML || Apache License/GPL/LGPL/MPL/CC
+|-----------------------
+! [http://github.com/tanin47/wiky Wiky]
+| Tanin Na Nakorn || Ruby || Markup || HTML || A simple Ruby library to convert Wiki markup to HTML || Apache License
+|-----------------------
+! [http://www.github.com/tanin47/wiky.js Wiky.js]
+| Tanin Na Nakorn || Javascript || Markup || HTML || A simple Javascript library to convert Wiki markup to HTML || Apache License
+|-------------------
+! [https://github.com/kakiray/txtwiki.js txtwiki.js]
+| Joao Sa || Javascript || Markup || Text || A javascript library to convert MediaWiki markup to plaintext || MIT License
+|-------------------
+! [http://medialab.di.unipi.it/wiki/Wikipedia_Extractor WikiExtractor] 
+| Giuseppe Attardi, Antonio Fuschetto || Python || SQL dump || text || Simple and fast tool for extracting plain text from Wikipedia dumps || GPL
+|-----------------------
+! [http://barnesc.blogspot.com/2005/10/mw2html-export-mediawiki-to-static.html mw2html]
+| Connelly Barnes || Python || Wiki url || HTML || Mininimal setup - gets the basic job of creating a static copy of the wiki done
+|-----------------------
+! [http://code.pediapress.com/wiki/wiki mwlib]
+| PediaPress.com || Python with C library || Markup and other || parse tree, HTML, PDF, XML, OpenDocument || Part of cooperation between [http://wikimediafoundation.org/ Wikimedia Foundation] and [http://www.pediapress.com/ PediaPress] || BSD
+|-----------------------
+! [http://johbuc6.coconia.net/doku.php/mediawiki2html_machine Mediawiki2HTML Machine]
+| Johannes Buchner || PHP || Markup || HTML || Project for parsing without the Mediawiki engine.
+|-------------------
+! [http://www.d2g.org.uk/index.php?plugin=home&action=WikiParser PHP5 WP]
+| Dan Goldsmith || PHP || Markup || HTML || Parser With Plugin Framework To Add Additional Syntax. Configurable for alternative markup i.e. PMWIKI || CDDL 1.0
+|-------------------
+! [http://wiki.eclipse.org/Mylyn/FAQ#WikiText Mylyn WikiText] 
+| David Green || Java || Local files || HTML, DocBook, Eclipse Help, DITA, extensible || Integration with Ant and Eclipse runtime
+|-----------------------
+! [http://code.google.com/p/gwtwiki/ Java API (Bliki engine) and Eclipse Plugin]
+| [http://sourceforge.net/users/axelcl axelcl] || Java || Markup fragment (supports [[w:Help:ParserFunctions|ParserFunctions]])|| On-screen preview, HTML, PDF || Java Wikipedia API and a plugin for the [http://www.eclipse.org/ Eclipse IDE] for assisted editing of Wikipedia (and anything else MediaWiki-based)
+|-----------------------
+! [http://svn.wikimedia.org/viewvc/mediawiki/trunk/parsers/graveyard/flexbisonparse/ FlexBisonParse]
+| Timwi || [[w:Flex lexical analyser|flex]], [[w:GNU bison|bison]] and C || Markup fragment || Custom XML || Intended as an eventual replacement to the parsing code inside MediaWiki itself
+|-----------------------
+! [http://jamwiki.org/ JAMWiki]
+| [[meta:User:Wrh2|Ryan]] || Java || JAMWiki front-end || HTML || Java Wiki engine that supports MediaWiki syntax.  The roadmap also calls for XML import and export that will be compatible with Mediawiki.
+|---------------------
+! [[w:en:User:Pilaf/Live Preview|Live Preview]]
+| [[w:en:User:Pilaf|Pilaf]] || JavaScript || Markup fragment || HTML || Provides instant preview while editing a page (without reloading). ''Note: name change pending.''
+|-------------------
+! [http://toolserver.org/~magnus/wiki2xml/w2x.php Magnus' magic wiki-to-XML converter] 
+| Magnus Manske || PHP || Markup fragment or list of article titles || Custom XML, plain text, DocBook XML || Feature-complete parser (except math and timeline); pure PHP, so ''slow'' but portable. Can directly generate PDFs if DocBook infrastructure is installed
+|--------------------
+! [http://wiki.kn.vutbr.cz/mj/index.cgi?Perl%20Wikipedia%20toolkit Perl Wikipedia Toolkit] 
+| Michal Jurosz || Perl || XML dump, SQL dump || Own parse tree, WikiMedia markup || Perl Wikipedia Toolkit developed for Computer-assisted Wikipedia translation. (Little functional.)
+|-------------------
+! [http://www.hut.fi/~tkarvine/tero-dump/ Tero-dump] 
+| Tero Karvinen || ? || Local wiki installation, including MySQL, PHP, web server || HTML || Scripts for grabbing the whole wiki; does not include images.
+|-------------------
+! [https://textile-j.dev.java.net Textile-J] 
+| David Green || Java || Local files || HTML, DocBook, Eclipse Help, extensible || Integration with Ant and Eclipse runtime.  Now moved to [http://wiki.eclipse.org/Mylyn/FAQ#WikiText Mylyn WikiText]
+|-------------------
+! [http://pear.php.net/package/Text_Wiki_Mediawiki/ Text_Wiki_Mediawiki] 
+| Multiple || PHP || Markup || HTML, Latex, Plain text || Part of the [http://pear.php.net/package/Text_Wiki/ Text_Wiki] library
+|---------------------
+! [http://infodisiac.com/Wikipedia/ TomeRaider export]
+| Erik Zachte || Perl || XML dump || TomeRaider database || See [[w:en:Wikipedia:TomeRaider database|en:Wikipedia:TomeRaider database]] for more details
+|------------------
+! [http://cvs.sourceforge.net/viewcvs.py/wikipedia/Waikiki/ Waikiki] 
+| Magnus Manske || C++ || SQL dump (via SQLite) || HTML || abandoned in favour of "flexbisonparse", but has been used inside some experimental "front ends"
+|-------------------
+! [http://www.wikiwyg.net/ Wikiwyg] 
+| Jim Higson || JavaScript || A live installation of MediaWiki || HTML (via XML) || More than just a parser; attempts to create a fully functional client-side interface
+|-------------------
+! [[meta:wik2dict|wik2dict]] 
+| Guaka || Python || SQL dump || DICT || 
+|-------------------
+! [http://wiki.auf-trag.de/ wiki2pdf]
+| Stephan Walter || Python (and PHP) || Markup fragment or set of online articles || LaTeX, PDF || Project is incomplete and dormant
+|-------------------
+! [[b:de:Benutzer:Dirk Huenniger/wb2pdf|wb2pdf]]
+| Dirk Hünniger || Haskell || online article || LaTeX, PDF, Parse Tree || Recursive Descent based on Monadic Parser Combinators. Allows for non context-free input, especially non well formatted HTML as often found on Wikipedia || GPL
+|-------------------
+! [http://sf.net/projects/wikipdf WikiPDF]
+| Felipe Sanches || Python (and PHP) || One selected article || LaTeX based on templates, PDF || Mediawiki extension that uses Stephan Walter's wiki2pdf as backend.
+|------------------
+! [http://cvs.sourceforge.net/viewcvs.py/wikipedia/wiki2xml/ Wiki2XML]
+| Magnus Manske || C++ || Markup fragment (?) || Custom XML || Another aborted project on the way to 'flexbisonparse'
+|------------------
+! [http://sf.net/html2fpdf HTML2FPDF]
+| Renato A. C. || PHP || A PHP class that transforms HTML into a feed for [http://www.fpdf.org FPDF] resulting in a PDF file || HTML -> HTML2FPDF -> FPDF -> PDF || Not specifically for Mediawiki, but easy to install using an updated version of this tool:[http://sourceforge.net/tracker/download.php?group_id=114602&atid=668890&file_id=131263&aid=1185473 updated html2fpdf.php].  See [[meta:HTML2FPDF and Mediawiki|HTML2FPDF and Mediawiki]] for more instructions.
+|------------------
+! [http://developer.berlios.de/projects/wikioncd/ WikiOnCD]
+| [[w:en:User:Andrew Rodland|Andrew Rodland]] || Perl || SQL Dump or markup || HTML, Parse tree (eventually?)
+| Started out as an offline wiki browser, but grew a parser when Wiki2static turned out to be too limiting. No web presence yet; code is in the SVN. || GPL
+|------------------
+! [http://wiki.wikipress.de/WikiPress:Wiki_Press_Publisher WikiPress Publisher] 
+| [[w:de:Benutzer:Vlado|Erwin Jurschitza]] || Delphi 7 || XML dump || DocBook XML, Digibib XML, HTML || Used for the [[w:de:Wikipedia:Wikipedia-Distribution|German DVD]], generates [[w:de:Benutzer:Vlado/Sauberes Markup|lists of bad markup]]. || no sources available
+|-------------------
+! [http://www.wikitaxi.org WikiTaxi] 
+| Ralf Junker || Delphi / Pascal || MediaWiki markup, page or fragment || Node-tree, HTML, potentially others || Hand-crafted parser with template expansion, parser functions (core and extended), tag extensions (&lt;ref&gt;, &lt;source&gt;), wiki text parsing. Used for the [http://www.wikitaxi.org WikiTaxi] offline reader. || no sources available
+|-------------------
+! [http://wikifilter.sourceforge.net/ Wikifilter]
+| ? || C++ ([[w:Microsoft Visual Studio|VS]]) || XML dumps ||HTML||A Windows program that uses Apache/IIS to serve the pages. Abandoned in 2006, before [[Help:Extension:ParserFunctions|ParserFunctions]] were available.
+|-------------------
+! [https://launchpad.net/wikipediadumpreader/ Wikipedia Dump Reader]
+| Benjamin Thyreau || [[w:Python|Python]] || XML dumps ||On screen||Cross platform viewer<br> ||GPLv2/~BSD license
+|-------------------
+! [http://www.wikimodel.org/ WikiModel]
+| MikhailKotelnikov || Java || Various WikiMarkups || Well formed sequence of events. Event listeners for XML/XHTML generation. Extensible. || WikiModel is a set of tools and a common API used to work with various wiki markups like CommonSyntax, Creole, MediaWiki, Confluence, JSPWiki, XWiki... WikiModel contains JavaCC-based validating and fixing parsers producing guarantied well formed set of events (like SAX for XML documents). Contains a XHTML serializer. || Apache License
+|-------------------
+! [http://github.com/rdblue/marker Marker]
+| [http://github.com/rdblue Ryan Blue] || ruby || Markup (subset) || HTML or formatted text || Marker is a ruby implementation of a subset of the MediaWiki markup language, intended bring MediaWiki's markup language to non-wiki applications with multiple output formats. || GPL
+|-------------------
+! [http://github.com/nricciar/wikicloth/ WikiCloth]
+| [http://github.com/nricciar/ nricciar] || ruby || Markup || HTML || Ruby implementation of the MediaWiki markup language, including a fair amount of the parser functions. || MIT
+|-------------------
+! [http://www.xwiki.org/ XWiki]
+| XWiki dev team || Java || Various WikiMarkups || Well formed sequence of events, HTML/XHTML, other WikiMarkups || XWiki can be used a full-fledged wiki supporting several WikiMarkups (including MediaWiki's markup). It also offers a [http://extensions.xwiki.org/xwiki/bin/view/Extension/Rendering+Module standalone Rendering Engine] that can be used as a Java library for parsing/rendering WikiMarkups || LGPL
+|-------------------
+! [http://github.com/aboutus/kiwi Kiwi]
+| [http://github.com/thomasluce Thomas Luce], [http://github.com/relistan Karl Matthias], [http://aboutus.org/ AboutUs.org] || C, Ruby, PEG || Markup || HTML || Kiwi is a PEG-based C implementation with Ruby bindings and a command line parser.  It is very fast and supports most of the MediaWiki syntax.  Actively developed. || BSD
+|-------------------
+! [http://yacy.net YaCy]
+| [https://developer.berlios.de/project/memberlist.php?group_id=3505 YaCy dev team] || Java || XML Dump || XML with [http://dublincore.org/documents/dces/ Dublin Core Metadata] || YaCy is a search engine and a MediaWiki parser is included as one of the import modules. MediaWiki xml dumps are first converted to [http://dublincore.org/documents/dc-xml-guidelines/ Dublin Core XML] as intermediate format and then inserted into the search index using the built-in Dublin Core importer. || GPL
+|-----------------------
+! [[Extension:UploadWizard/MessageParser|MessageParser]]
+| [[User:NeilK|Neil Kandalgaonkar]] || JavaScript || Markup || Abstract syntax tree, jQuery object, HTML || Designed for use with message strings, to allow enhanced interface in the browser, like pluralizing internationalized messages or attaching jQuery behaviour to links within a message || GPL
+|-----------------------
+! [http://sweble.org/wiki/Sweble_Wikitext_Parser Sweble Wikitext Parser]
+| Hannes Dohrn || Java || Markup || Abstract syntax tree, XML, HTML || Claims to be very thorough. Related project [http://sweble.org/crystalball/ CrystalBall] allows [[w:XPath|XPath]] queries of Wikipedia content || [[w:Apache License|Apache License]] 2.0
+|-----------------------
+! [http://code.google.com/p/jwpl/ JWPL api]
+| [http://www.ukp.tu-darmstadt.de/people/dr-torsten-zesch/ Torsten Zesch], [http://www.ukp.tu-darmstadt.de/people/richard-eckart-de-castilho Richard Eckart de Castilho], [http://www.ukp.tu-darmstadt.de/people/oliver-ferschke Oliver Ferschke], [http://www.ukp.tu-darmstadt.de/people/elisabeth-niemann/ Elisabeth Niemann] || Java || XML Dump || API to access pages, outlinks, inlinks and more || "JWPL (Java Wikipedia Library) is a free, Java-based application programming interface that allows to access all information contained in Wikipedia." "JWPL is for you: If you need structured access to Wikipedia in Java." || LGPL
+|-----------------------
+! [https://gitorious.org/wikiparser/wikiparser libmwparser]
+| Saitmoh || C || XML dumps, Markup || XML, XHTML, Expanded WikiText || Primary an wikimedias offline reader with interwiki support. Libmwparser is a source independant library which supports most of MediaWiki syntax and some extentions like math or gallery || GPL
+|-----------------------
+! [https://github.com/peter17/mediawiki-parser mediawiki-parser]
+| [[User:Peter17|Peter Potrowl]]<br />Erik Rose || Python || Markup || XHTML, raw text, [[:en:Abstract syntax tree|AST]] || GSoC-2011 project; the use of a PEG parser makes it easy to improve<br />Parser functions are not supported yet. || GPL
+|-----------------------
+! [[Parsoid]]
+| [[User:GWicke|Gabriel Wicke]] and the [[Parsoid]] / [[Visual editor]] team || PEG / JavaScript / Node.js || Markup, XML dumps, test cases || Tokens, [[Parsoid/HTML5 DOM with microdata|HTML5 DOM with microdata]] and round-trip data || WikiMedia project in support of the [[Visual editor]] project. Support for template fetching and -expansion and parser functions (work in progress). Extension support planned via call-back to PHP parser. || GPL
+|-----------------------
+! [https://github.com/earwig/mwparserfromhell/ mwparserfromhell]
+| [[w:en:User:The Earwig|The Earwig]] || Python || Markup || AST || A Python library to convert Wiki markup to a navigable string, which can be used to examine and manipulate templates. Written in pure Python, compatible with Python 2.7 and 3, and no dependencies.  || MIT License
+|}
+
+
+
+{| border=1 cellpadding=0 class="prettytable sortable"
+! Name and link !! Principal author(s) !! Language !! Input !! Output !! Comments / other info !! License
+|-----------------------
+! &nbsp;&nbsp;&nbsp; ''not listed'' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| &nbsp;&nbsp;&nbsp; ''as yet unknown'' || &nbsp;&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp; RTF &nbsp;&nbsp; || &nbsp;&nbsp; Markup (or importable XML dump) &nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;
+|-----------------------
+! &nbsp;&nbsp;&nbsp; ''not listed'' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| &nbsp;&nbsp;&nbsp; ''as yet unknown'' || &nbsp;&nbsp;&nbsp;&nbsp; || OpenOffice Formats || &nbsp;&nbsp; Markup (or importable XML dump) &nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;
+|-----------------------
+! &nbsp;&nbsp;&nbsp; ''not listed'' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| &nbsp;&nbsp;&nbsp; ''as yet unknown'' || &nbsp;&nbsp;&nbsp;&nbsp; || Text Processing Formats || &nbsp;&nbsp; Markup  (or importable XML dump) &nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;
+|-----------------------
+|}
+
+
+[[Category:Parser]]
+
+* Tero-dump gives a 404 error.
+
