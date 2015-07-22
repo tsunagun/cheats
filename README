@@ -1,6 +1,5 @@
 classifiers
   gem 'classifier' を利用したベイズ分類を試してみる．
-gera
 
 webapi
   Rubyで各種WebAPI等にアクセスしてみる．
