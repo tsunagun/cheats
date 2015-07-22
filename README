@@ -1,6 +1,6 @@
 classifiers
   gem 'classifier' を利用したベイズ分類を試してみる．
-hoge
+bababa
 
 webapi
   Rubyで各種WebAPI等にアクセスしてみる．
