@@ -1,9 +1,0 @@
-classifiers
-  gem 'classifier' を利用したベイズ分類を試してみる．
-bababa
-
-webapi
-  Rubyで各種WebAPI等にアクセスしてみる．
-
-scraping
-  Webページ中の文字列を抽出・整形して表示してみる．
